@@ -1,4 +1,4 @@
-// Go provides the Writer Interface to write data to a stream or local disk.
+// Go provides the Writer Interface to raed and write data to a stream or local disk.
 package main
 
 import (
@@ -7,9 +7,9 @@ import (
 	"os"
 )
 
-// type Writer interface {
-// 	Write (p []byte) (n int, err error)
-// }
+// go doc io.Writer
+// go doc os.File
+// go doc os.File.Write
 
 func main() {
 	file, err := os.Create("goWrite.txt")
@@ -20,7 +20,7 @@ func main() {
     defer file.Close()
 
     writer := io.Writer(file)
-    data, err := writer.Write([]byte("Hello World"))
+    data, err := writer.Write([]byte("Hello World from Reader and Writer"))
     if err != nil {
         fmt.Println(err)
         return
@@ -28,4 +28,7 @@ func main() {
     fmt.Println(data)
 
 }
+
+
+
 
