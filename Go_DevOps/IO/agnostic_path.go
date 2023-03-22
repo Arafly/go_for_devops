@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	// "runtime"
+	_ "runtime" // Decided to use an anonymous import, where a package is needed to be loaded but not using its functionality directly. Without _, we would receive a compile error for not using the imported package.
 	"os"
 	"path/filepath"
 )
