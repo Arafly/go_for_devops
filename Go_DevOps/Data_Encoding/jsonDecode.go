@@ -1,4 +1,7 @@
-// Marshal and Unmarshal JSON
+// There two ways of decoding data in JSON—
+// The first is the json.Unmarshal: a function that uses a byte slice as input
+// The second is the json.Decoder type that uses a generic io.Reader to get the encoded content.
+
 package main
 
 import (
@@ -7,46 +10,32 @@ import (
 	"os"
 )
 
-type Employee struct {
-	Id int `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+type Character struct {
+	Name        string `json:"name"`
+	Surname     string `json:"surname"`
+	Job         string `json:"job,omitempty"`
+	YearOfBirth int    `json:"year_of_birth,omitempty"`  // the omitempty tag that is used for output purposes to avoid marshaling the field if it has a zero value.
 }
 
 
-// func main() {
-// 	//  struct to JSON
-// 	emp := Employee{
-	// 	Id: 135,
-	// 	Name: "John", 
-	// 	Email: "john.doe@gmail.com"
-	// }
-// 	b, err := json.Marshal(emp)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		return
-// 	}
-// 	os.Stdout.Write(b)
-
-// 	// Marshalling a map into JSON
-// 	// We then create a map of string keys and interface{} values. This is a common pattern when you need to handle multiple message types or do discovery on a message.
-
-// 	data := map[string]interface{}{}
-// 	if err := json.Marshal(data); err != nil {
-// 		return err
-// 	}
-// }
 
 func main() {
-	// JSON to struct
+	// JSON to struct (using json.Unmarshal)
 	emp := Employee{}
 	b := []byte(`{"id":135,"name":"John","email":"john@gmail"}`)
 	if err := json.Unmarshal(b, &emp); err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(emp)
 	
+	// using json.Decoder
+	r := strings.NewReader(`{"name":"Lavinia","surname":"Whateley","year_of_birth":1878}`)
+	d := json.NewDecoder(r)
+	var c Character
+	if err := d.Decode(&c); err != nil {
+		log.Fatalln(err)
+	}
+	log.Printf("%+v", c)
 
 
 	// When you need to handle multiple message types or do discovery on a message, Go allows you to decode messages into map[string]interface{}, where the string key represents the field name and interface{} represents the value.
