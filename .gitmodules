@@ -1,0 +1,3 @@
+[submodule "basics/helloWorld/One2N_Go"]
+	path = basics/helloWorld/One2N_Go
+	url = https://github.com/Arafly/One2N_Go.git
