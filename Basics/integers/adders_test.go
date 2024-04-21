@@ -14,6 +14,9 @@ func TestAdder(t *testing.T){
 	}
 }
 
+// ExampleAdd is a function that demonstrates how to use the Add function
+// It runs the Add function and prints the result
+// go test -v -run=ExampleAdd
 func ExampleAdd() {
 	sum := Add(1, 5)
 	fmt.Println(sum)
