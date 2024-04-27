@@ -1,6 +1,11 @@
 package main
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+
+	"gopkg.in/check.v1"
+)
 
 func TestSum (t *testing.T) {
 	// t.Run("collection of any size", func(t *testing.T) {
@@ -25,22 +30,36 @@ func TestSum (t *testing.T) {
 }
 
 func TestSumAll(t *testing.T) {
-	want :=  SumAll([]int{3, 5}, []int{0, 9})
+
+	got :=  SumAll([]int{3, 5}, []int{0, 9})
 	expected := []int{8, 9}
 
-	if want != expected {
-		t.Errorf("Expected %v want %v", expected, want)
+	// DeepEqual is a function from the reflect package. It can be used to check if two variables are the same.
+	if !reflect.DeepEqual(got, expected) {
+		t.Errorf("Expected %v want %v", got, expected)
+	}
+}
+
+func TestSumAllTails(t *testing.T) {
+
+	checkSums := func(t testing.TB, got, expected []int) {
+		t.Helper()
+		if !reflect.DeepEqual(got, expected) {
+			t.Errorf("Expected %v want %v", got, expected)
+		}
 	}
 
-	// t.Run("make the sums of some slices", func(t *testing.T) {
-	// 	numbers1 := []int{1, 2, 3}
-	// 	numbers2 := []int{4, 5}
+	t.Run("make the sums of some slices", func(t *testing.T) {
+		got := SumAllTails([]int{1, 2}, []int{0, 9})
+		expected := []int{2, 9}
 
-	// 	expected := SumAll(numbers1, numbers2)
-	// 	want := []int{6, 9}
+		checkSums(t, got, expected)
+	})
 
-	// 	if expected != want {
-	// 		t.Errorf("Expected %v want %v, %v, %v", expected, want, numbers1, numbers2)
-	// 	}
-	// })
+	t.Run("safely sum empty slices", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{3, 4, 5})
+		expected := []int{0, 9}
+
+		checkSums(t, got, expected)
+	})
 }
