@@ -3,8 +3,6 @@ package main
 import (
 	"reflect"
 	"testing"
-
-	"gopkg.in/check.v1"
 )
 
 func TestSum (t *testing.T) {
