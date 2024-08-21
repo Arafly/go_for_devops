@@ -8,6 +8,7 @@ import (
 	"github.com/go-yaml/yaml"
 )
 
+// Remove the duplicate declaration of Character
 type Character struct {
 	Name string `yaml:"name"`
 	Surname string `yaml:"surname"`
@@ -15,7 +16,8 @@ type Character struct {
 	YearOfBirth int `yaml:"year_of_birth,omitempty"`
 }
 
-func main() {
+// Remove the duplicate declaration of main
+// func main() {
 	// We can use them to encode a data structure or, in this case, a list of structures:
 	var chars = []Character{{
 		Name: "William",

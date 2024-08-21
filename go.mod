@@ -1,4 +1,4 @@
-module Go_DevOps
+module  go_for
 
 go 1.22.1
 

@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"log"
 )
 
 type Employee struct {
@@ -31,12 +32,14 @@ func main() {
 	os.Stdout.Write(b)
 
 	// using json.Encoder
+
 	e := json.NewEncoder(os.Stdout)
 	e.SetIndent("", "\t")
 	c := Employee{
-		Name: "Charles Dexter",
+		Name:  "Charles Dexter",
 		Email: "jackson@mail.com",
-	} if err := e.Encode(c); err != nil {
+	}; // fix: add semicolon here
+	if err := e.Encode(c); err != nil {
 		log.Fatalln(err)
 	}
 
