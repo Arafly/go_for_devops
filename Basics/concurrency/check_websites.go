@@ -1,3 +1,5 @@
+// Context: https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/concurrency
+
 package concurrency
 
 type WebsiteChecker func(string) bool
