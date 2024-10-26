@@ -7,19 +7,46 @@ package main
 import (
 	"net/http"
 	"time"
+	"fmt"
 )
 
-func Racer (a, b string) (winner string) {
-	startA := time.Now()
-	http.Get(a)
-	aDuration := time.Since(startA)
+var tenSecondTimeout = 10 * time.Second
 
-	startB := time.Now()
-	http.Get(b)
-	bDuration := time.Since(startB)
+func Racer (a, b string) (winner string, error error) {
+	return ConfigurableRacer(a, b, tenSecondTimeout)
+}
 
-	if aDuration < bDuration {
-		return a
+func ConfigurableRacer (a, b string, timeout time.Duration) (winner string, error error) {
+	// aDuration := measureResponseTime(a)
+	// bDuration := measureResponseTime(b)
+
+	// if aDuration < bDuration {
+	// 	return a
+	// }
+	// return b
+
+	select {
+	case <-ping(a):
+		return a, nil
+	case <-ping(b):
+		return b, nil
+	case <-time.After(timeout):
+		return "", fmt.Errorf("timed out waiting for %s and %s", a, b)
 	}
-	return b
+
+}
+
+// func measureResponseTime(url string) time.Duration {
+// 	start := time.Now()
+// 	http.Get(url)
+// 	return time.Since(start)
+// }
+
+func ping (url string) chan struct{} {
+	ch := make(chan struct{})
+	go func() {
+		http.Get(url)
+		close(ch)
+	}()
+	return ch
 }
